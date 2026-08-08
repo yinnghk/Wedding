@@ -61,32 +61,32 @@ export function Gallery() {
   }, [modalIndex, modalPrev, modalNext]);
 
   return (
-    <section className="bg-[#f7f1e8] py-12 text-center overflow-hidden">
-      {/* 타이틀 */}
-      <div className="px-6 text-center mb-8">
-        <span className="text-xs font-semibold tracking-widest text-primary uppercase">GALLERY</span>
-        <h2 
-          className="text-2xl mt-1"
-          style={{ fontFamily: '"Noto Serif KR", serif' }}
-        >
-          웨딩 사진
-        </h2>
-      </div>
+    <section className="bg-[#f7f1e8] px-6 py-20 text-center">
+      <section className="px-6">
+        <div className="text-center">
+          <h2
+            className="text-2xl"
+            style={{ fontFamily: '"Noto Serif KR", serif' }}
+          >
+            Gallery
+          </h2>
+        </div>
+      </section>
 
       {/* 메인 캐러셀 슬라이더 */}
-      <div className="relative w-full">
+      <div className="mt-7 relative w-full">
         {/* 좌우 이동 버튼 */}
         <button
           onClick={prev}
           aria-label="이전 사진"
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-background/80 shadow-md text-foreground transition active:scale-90"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-background/65 shadow-md text-foreground transition active:scale-90"
         >
           <ChevronLeft size={20} />
         </button>
         <button
           onClick={next}
           aria-label="다음 사진"
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-background/80 shadow-md text-foreground transition active:scale-90"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 grid h-10 w-10 place-items-center rounded-full bg-background/65 shadow-md text-foreground transition active:scale-90"
         >
           <ChevronRight size={20} />
         </button>
@@ -141,8 +141,14 @@ export function Gallery() {
           })}
         </div>
 
+        <div>
+          <span className="text-xs">
+            클릭하면 전체 사진을 볼 수 있어요
+          </span>
+        </div>
+
         {/* 하단 인디케이터 / 카운터 */}
-        <div className="mt-4 text-xs tracking-widest text-foreground/60 font-medium">
+        <div className="mt-3 text-xs tracking-widest text-foreground/60 font-medium">
           {currentIndex + 1} / {photos.length}
         </div>
       </div>

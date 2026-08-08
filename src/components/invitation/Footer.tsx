@@ -35,6 +35,11 @@ export function Footer() {
         <p className="mt-5 font-serif text-sm text-primary/70">
           소중한 날 귀한 걸음으로 축하해주셔서 감사합니다.
         </p>
+
+        <p className="mt-5 font-serif text-xs text-primary/30">
+          made by hxunhwang
+        </p>
+
       </footer>
     </section>
   );

@@ -18,6 +18,7 @@ export function Intro({ onFinish }: IntroProps) {
   }, [onFinish]);
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
     const characters = Array.from(TEXT); // 이모지/특수문자 자르기 안전화
     let index = 0;
     let fadeTimer: NodeJS.Timeout;
@@ -47,12 +48,13 @@ export function Intro({ onFinish }: IntroProps) {
       clearInterval(typingInterval);
       clearTimeout(fadeTimer);
       clearTimeout(finishTimer);
+      document.body.style.overflow = "unset";
     };
   }, []);
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-2000 ease-in-out pointer-events-none ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-1000 ease-in-out pointer-events-none touch-none ${
         isFading ? "opacity-0" : "opacity-100"
       }`}
     >

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Copy, Phone } from "lucide-react";
+import { Copy, Phone, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import { ChevronDown } from "lucide-react";
 
 type Account = {
   relation: string;
@@ -12,14 +11,15 @@ type Account = {
 };
 
 const groomAccounts: Account[] = [
-  { relation: "신랑", name: "이황", bank: "카카오", number: "7942-20-68538", phone: "01091822750" },
-  { relation: "신랑 아버지", name: "이인식", bank: "국민", number: "347802-04-295482", phone: "01023456789" },
-  { relation: "신랑 어머니", name: "강미선", bank: "국민", number: "347802-04-295482", phone: "01034567890" },
+  { relation: "신랑 아버지", name: "이인식", bank: "KB국민은행", number: "347802-04-295482", phone: "01023456789" },
+  { relation: "신랑 어머니", name: "강미선", bank: "KB국민은행", number: "347802-04-295482", phone: "01034567890" },
+  { relation: "신랑", name: "이황", bank: "카카오뱅크", number: "7942-20-68538", phone: "01091822750" },
 ];
+
 const brideAccounts: Account[] = [
-  { relation: "신부", name: "남궁현경", bank: "카카오", number: "7942-20-68538", phone: "01073460615" },
-  { relation: "신부 아버지", name: "남궁현", bank: "국민", number: "347802-04-295482", phone: "01027380914" },
-  { relation: "신부 어머니", name: "최승경", bank: "국민", number: "347802-04-295482", phone: "01072305002" },
+  { relation: "신부 아버지", name: "남궁현", bank: "KB국민은행", number: "347802-04-295482", phone: "01027380914" },
+  { relation: "신부 어머니", name: "최승경", bank: "KB국민은행", number: "347802-04-295482", phone: "01072305002" },
+  { relation: "신부", name: "남궁현경", bank: "카카오뱅크", number: "7942-20-68538", phone: "01073460615" },
 ];
 
 function formatPhone(p: string) {
@@ -28,38 +28,53 @@ function formatPhone(p: string) {
 
 function AccountList({ items }: { items: Account[] }) {
   return (
-    <ul className="mt-3 space-y-2">
+    <ul className="mt-4 space-y-3 pt-2 border-t border-stone-200/60">
       {items.map((a) => (
-        <li key={a.relation} className="rounded-xl bg-card p-3 border border-border">
-          <div className="flex items-start justify-between gap-3">
+        <li
+          key={a.relation}
+          className="rounded-xl bg-white/90 p-4 shadow-sm border border-stone-100 text-left transition"
+        >
+          {/* 호칭 및 전화 버튼 */}
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-foreground/60">{a.relation}</p>
-              <p className="font-serif">{a.name}</p>
+              <span className="text-[11px] font-medium text-stone-400 block mb-0.5">
+                {a.relation}
+              </span>
+              <span className="font-serif text-stone-800 text-base font-bold">
+                {a.name}
+              </span>
             </div>
-            <div className="flex gap-2">
-              <a
-                href={`tel:${a.phone}`}
-                aria-label={`${a.name}에게 전화`}
-                className="grid place-items-center h-8 w-8 rounded-full bg-secondary text-primary active:scale-95 transition"
-              >
-                <Phone size={14} />
-              </a>
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(`${a.bank} ${a.number}`);
-                  toast.success("계좌번호가 복사되었습니다");
-                }}
-                className="grid place-items-center h-8 w-8 rounded-full bg-primary text-primary-foreground active:scale-95 transition"
-                aria-label="계좌번호 복사"
-              >
-                <Copy size={14} />
-              </button>
-            </div>
+
+            {/* 전화 연결 버튼 */}
+            <a
+              href={`tel:${a.phone}`}
+              aria-label={`${a.name}에게 전화`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-100 text-stone-600 text-xs hover:bg-stone-200 active:scale-95 transition"
+            >
+              <Phone size={12} />
+              <span>전화</span>
+            </a>
           </div>
-          <p className="mt-2 text-sm text-foreground/80">
-            {a.bank} <span className="font-mono">{a.number}</span>
-          </p>
-          <p className="mt-0.5 text-xs text-foreground/55 font-mono">{formatPhone(a.phone)}</p>
+
+          {/* 계좌 정보 및 복사 버튼 */}
+          <div className="mt-3 pt-3 border-t border-dashed border-stone-200/80 flex items-center justify-between">
+            <div className="text-xs text-stone-600">
+              <span className="font-medium text-stone-700 mr-1.5">{a.bank}</span>
+              <span className="font-mono tracking-tight">{a.number}</span>
+            </div>
+
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`${a.bank} ${a.number}`);
+                toast.success("계좌번호가 복사되었습니다");
+              }}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-stone-800 text-white text-[11px] font-light active:scale-95 transition shadow-sm"
+              aria-label="계좌번호 복사"
+            >
+              <Copy size={11} />
+              <span>복사</span>
+            </button>
+          </div>
         </li>
       ))}
     </ul>
@@ -69,10 +84,20 @@ function AccountList({ items }: { items: Account[] }) {
 function Section({ title, items }: { title: string; items: Account[] }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl bg-card/70 border border-border p-4">
-      <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center justify-between">
-        <span className="font-serif">{title}</span>
-        <ChevronDown size={18} className={`text-primary transition ${open ? "rotate-180" : ""}`} />
+    <div className="rounded-2xl bg-white/70 border border-stone-200/70 p-4 shadow-sm backdrop-blur-sm transition-all">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between py-1"
+      >
+        <span className="font-serif text-stone-800 font-medium text-base">
+          {title} 계좌번호
+        </span>
+        <ChevronDown
+          size={18}
+          className={`text-stone-500 transition-transform duration-300 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
       </button>
       {open && <AccountList items={items} />}
     </div>
@@ -81,19 +106,30 @@ function Section({ title, items }: { title: string; items: Account[] }) {
 
 export function Accounts() {
   return (
-    <section className="bg-[#faf6f1] px-6 py-12 text-center">
+    <section className="bg-[#faf6f1] px-3 py-20 text-center">
       <section className="px-6">
         <div className="text-center">
-          <h2 
-            className="text-2xl"
-            style={{ fontFamily: '"Noto Serif KR", serif' }}>
-            마음 전하실 곳</h2>
+          <h2
+            className="text-2xl text-stone-800"
+            style={{ fontFamily: '"Noto Serif KR", serif' }}
+          >
+            Account
+          </h2>
+
+          <p className="mt-4 leading-relaxed text-sm text-primary/60">
+            참석이 어려우신 분들을 위해 기재했습니다
+          </p>
+          <p className="leading-relaxed text-sm text-primary/60">
+            너그러운 마음으로 양해 부탁 드립니다
+          </p>
         </div>
-        <div className="mt-6 space-y-3">
+
+        {/* 아코디언 카드 영역 */}
+        <div className="mt-8 space-y-3.5 max-w-[340px] mx-auto">
           <Section title="신랑측" items={groomAccounts} />
           <Section title="신부측" items={brideAccounts} />
         </div>
-      </section>  
+      </section>
     </section>
   );
 }

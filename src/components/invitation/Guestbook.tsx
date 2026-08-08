@@ -73,15 +73,20 @@ export function Guestbook() {
   };
 
   return (
-    <section className="bg-[#f7f1e8] px-5 py-12 text-center">
-      <div className="max-w-md mx-auto">
-        {/* 헤더 타이틀 */}
-        <h2 className="text-3xl tracking-widest text-[#5c5454] font-serif uppercase">
-          MESSAGE
-        </h2>
-        <p className="mt-3 text-sm text-[#8c8282]">
-          황이와 현경이에게
-        </p>
+    <section className="bg-[#f7f1e8] px-3 py-20 text-center">
+      <section className="px-6">
+        <div className="text-center">
+          <h2
+            className="text-2xl text-stone-800"
+            style={{ fontFamily: '"Noto Serif KR", serif' }}
+          >
+            Message
+          </h2>
+
+          <p className="mt-4 leading-relaxed text-sm text-primary/60">
+            황이와 현경이에게
+          </p>
+        </div>
 
         {/* 메시지 리스트 (최대 3개만 노출) */}
         {messages.length > 0 && (
@@ -144,7 +149,7 @@ export function Guestbook() {
             </button>
           </div>
         )}
-      </div>
+      </section>
     </section>
   );
 }
