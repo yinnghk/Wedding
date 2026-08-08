@@ -43,13 +43,15 @@ function Index() {
 
   return (
     <>
-      {/* {showIntro && (
+      {/* 인트로가 표시되는 동안 배경 메인 화면이 뒤에 배치되어 비치게 됩니다 */}
+      {showIntro && (
         <Intro
           onFinish={() => {
             setShowIntro(false);
           }}
         />
-      )} */}
+      )}
+      
       <div className="min-h-screen w-full page-bg">
         <Toaster position="top-center" richColors />
 

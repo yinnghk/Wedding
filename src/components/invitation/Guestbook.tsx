@@ -6,24 +6,15 @@ type Message = {
   id: string;
   author: string;
   content: string;
-  color_index: number;
   created_at: string;
 };
-
-const COLORS = [
-  "#efe7f7",
-  "#e5daf3",
-  "#f3ecf8",
-  "#e9e2f0",
-  "#f0e6f6",
-  "#e2d7ee",
-];
 
 export function Guestbook() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false); // 폼 열림/닫힘 상태
 
   useEffect(() => {
     supabase
@@ -58,7 +49,6 @@ export function Guestbook() {
     const { error } = await supabase.from("guestbook_messages").insert({
       author: author.trim(),
       content: content.trim(),
-      color_index: Math.floor(Math.random() * COLORS.length),
     });
     setSubmitting(false);
     if (error) {
@@ -67,71 +57,94 @@ export function Guestbook() {
     }
     setAuthor("");
     setContent("");
+    setIsFormOpen(false); // 메시지 전송 후 폼 닫기
     toast.success("메시지가 전달되었습니다");
   };
 
-  // Split for masonry (2 columns)
-  const cols: Message[][] = [[], []];
-  messages.forEach((m, i) => cols[i % 2].push(m));
+  const formatDate = (isoString: string) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}.${month}.${day} ${hours}:${minutes}`;
+  };
 
   return (
-    <section className="bg-[#f7f1e8] px-6 py-12 text-center">
-      <section className="px-6">
-        <div className="text-center">
-          <h2 
-            className="text-2xl"
-            style={{ fontFamily: '"Noto Serif KR", serif' }}>
-            축하 메시지</h2>
-        </div>
+    <section className="bg-[#f7f1e8] px-5 py-12 text-center">
+      <div className="max-w-md mx-auto">
+        {/* 헤더 타이틀 */}
+        <h2 className="text-3xl tracking-widest text-[#5c5454] font-serif uppercase">
+          MESSAGE
+        </h2>
+        <p className="mt-3 text-sm text-[#8c8282]">
+          황이와 현경이에게
+        </p>
 
-        <div className="mt-6 p-4 space-y-3">
-          <input
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            placeholder="이름"
-            className="w-full rounded-full border border-primary/20 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-          />
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="축하 메시지를 남겨주세요💌"
-            rows={3}
-            className="w-full rounded-2xl border border-primary/20 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/30"
-          />
+        {/* 메시지 리스트 (최대 3개만 노출) */}
+        {messages.length > 0 && (
+          <div className="mt-8 space-y-4 text-left">
+            {messages.slice(0, 3).map((m) => (
+              <div
+                key={m.id}
+                className="relative rounded-2xl bg-white p-5 shadow-sm border border-black/5"
+              >
+                <span className="absolute top-4 right-4 text-xs text-stone-300">
+                  ✕
+                </span>
+                <p className="text-[14.5px] leading-relaxed text-stone-800 whitespace-pre-wrap break-words pr-4">
+                  {m.content}
+                </p>
+                <div className="mt-4 flex items-center justify-between text-xs text-stone-400 font-light">
+                  <span>
+                    <span className="text-stone-400 mr-1">From</span>
+                    <span className="text-stone-600 font-normal">{m.author}</span>
+                  </span>
+                  <span className="text-stone-400">{formatDate(m.created_at)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 메시지 작성하기 버튼 */}
+        <div className="mt-6">
           <button
-            onClick={submit}
-            disabled={submitting}
-            className="w-full rounded-full bg-primary py-2.5 font-medium text-primary-foreground transition active:scale-95 disabled:opacity-50"
+            onClick={() => setIsFormOpen((prev) => !prev)}
+            className="w-full rounded-xl bg-[#c7a37e] py-3 text-sm font-medium text-white transition active:scale-[0.98] shadow-sm"
           >
-            {submitting ? "전송 중…" : "메시지 남기기"}
+            {isFormOpen ? "작성 취소" : "메시지 작성하기"}
           </button>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          {cols.map((col, ci) => (
-            <div key={ci} className="flex flex-col gap-3">
-              {col.map((m, i) => {
-                const rot = (m.id.charCodeAt(0) % 6) - 3;
-                return (
-                  <div
-                    key={m.id}
-                    className="rounded-xl p-4 border border-primary/10"
-                    style={{
-                      background: COLORS[m.color_index % COLORS.length],
-                      transform: `rotate(${rot}deg)`,
-                    }}
-                  >
-                    <p className="text-sm whitespace-pre-wrap break-words text-foreground/85">
-                      {m.content}
-                    </p>
-                    <p className="mt-2 text-[11px] font-serif text-foreground/70">— {m.author}</p>
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </section>  
+        {/* 입력 폼 (버튼 클릭 시 표시) */}
+        {isFormOpen && (
+          <div className="mt-4 bg-white/70 backdrop-blur-sm p-4 rounded-2xl shadow-sm space-y-3">
+            <input
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="이름"
+              className="w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-2.5 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-300"
+            />
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="축하 메시지를 남겨주세요💌"
+              rows={3}
+              className="w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-700 placeholder:text-stone-400 resize-none focus:outline-none focus:ring-2 focus:ring-stone-300"
+            />
+            <button
+              onClick={submit}
+              disabled={submitting}
+              className="w-full rounded-xl bg-[#5c5454] py-2.5 text-sm font-medium text-white transition active:scale-[0.98] disabled:opacity-50"
+            >
+              {submitting ? "전송 중…" : "보내기"}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
