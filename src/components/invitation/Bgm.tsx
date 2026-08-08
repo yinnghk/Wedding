@@ -25,7 +25,7 @@ export function Bgm() {
     <>
       <audio
         ref={audioRef}
-        src="public/music/completely.m4a"
+        src="/music/completely.m4a"
         loop
       />
 

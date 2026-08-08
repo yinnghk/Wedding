@@ -15,6 +15,7 @@ import { StarDivider } from "@/components/invitation/Divider";
 import { Hxunhwang } from "@/components/invitation/Hxunhwang";
 import { Bgm } from "@/components/invitation/Bgm";
 import { Intro } from "@/components/invitation/Intro";
+import { Ring } from "@/components/invitation/Ring";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,13 +43,13 @@ function Index() {
 
   return (
     <>
-      {showIntro && (
+      {/* {showIntro && (
         <Intro
           onFinish={() => {
             setShowIntro(false);
           }}
         />
-      )}
+      )} */}
       <div className="min-h-screen w-full page-bg">
         <Toaster position="top-center" richColors />
 
@@ -56,23 +57,15 @@ function Index() {
 
         <main className="mx-auto w-full max-w-[480px] bg-transparent">
           <Hero />
-          <StarDivider />
           <Invitation />
-          <StarDivider />
+          <Ring />
           <Countdown />
-          <StarDivider />
-          <Gallery />
-          <StarDivider />
           <Hxunhwang />
-          <StarDivider />
+          <Gallery />
           <Location />
-          <StarDivider />
-          <Rsvp />
-          <StarDivider />
           <Accounts />
-          <StarDivider />
           <Guestbook />
-          <StarDivider />
+          <Rsvp />
           <Footer />
         </main>
       </div>

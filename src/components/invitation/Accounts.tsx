@@ -81,17 +81,19 @@ function Section({ title, items }: { title: string; items: Account[] }) {
 
 export function Accounts() {
   return (
-    <section className="px-6">
-      <div className="text-center">
-        <h2 
-          className="text-2xl"
-          style={{ fontFamily: '"Noto Serif KR", serif' }}>
-          마음 전하실 곳</h2>
-      </div>
-      <div className="mt-6 space-y-3">
-        <Section title="신랑측" items={groomAccounts} />
-        <Section title="신부측" items={brideAccounts} />
-      </div>
+    <section className="bg-[#faf6f1] px-6 py-12 text-center">
+      <section className="px-6">
+        <div className="text-center">
+          <h2 
+            className="text-2xl"
+            style={{ fontFamily: '"Noto Serif KR", serif' }}>
+            마음 전하실 곳</h2>
+        </div>
+        <div className="mt-6 space-y-3">
+          <Section title="신랑측" items={groomAccounts} />
+          <Section title="신부측" items={brideAccounts} />
+        </div>
+      </section>  
     </section>
   );
 }

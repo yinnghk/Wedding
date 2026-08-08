@@ -60,7 +60,7 @@ export function Gallery() {
   const [touchX, setTouchX] = useState<number | null>(null);
 
   return (
-    <section>
+    <section className="bg-[#f7f1e8] px-6 py-12 text-center">
       <div className="px-6 text-center">
         <h2 
           className="text-2xl"

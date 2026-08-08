@@ -46,7 +46,7 @@ function Calendar() {
               {d ? (
                 isWedding ? (
                   <div className="relative flex h-10 w-10 items-center justify-center">
-                  <span className="absolute text-4xl text-primary leading-none">♥</span>
+                  <span className="absolute text-4xl text-pink-300 leading-none">♥</span>
                   <span className="relative z-10 text-xs font-bold text-white">
                     {d}
                   </span>
@@ -68,46 +68,52 @@ function Calendar() {
 export function Countdown() {
   const { days, hours, minutes, seconds } = useCountdown();
   return (
-    <section className="px-6">
-      <div className="text-center">
-        <h2 
-          className="text-2xl"
-          style={{ fontFamily: '"Noto Serif KR", serif' }}>
-          일시</h2>
+    <section className="bg-[#ffffff] px-6 py-12 text-center">
+      <section className="px-6">
+        <div className="text-center">
+          <h2 
+            className="text-2xl"
+            style={{ fontFamily: '"Noto Serif KR", serif' }}>
+            Wedding Day</h2>
 
-        <p className="mt-6 leading-relaxed text-sm">
-        2026년 12월 12일 토요일 오후 4시
-        <br />
-        로얄파크컨벤션 1F 파크홀
-        </p>
-      </div>
-
-      <div className="mt-2">
-        <Calendar />
-      </div>
-
-      <div className="p-5">
-        <div className="grid grid-cols-4 gap-2 text-center">
-          {[
-            { l: "DAYS", v: days },
-            { l: "HOURS", v: hours },
-            { l: "MIN", v: minutes },
-            { l: "SEC", v: seconds },
-          ].map((c) => (
-            <div key={c.l} className="rounded-lg bg-secondary py-2">
-              <p className="font-serif text-lg tabular-nums">{String(c.v).padStart(2, "0")}</p>
-              <p className="text-[10px] tracking-widest text-foreground/60 mt-1">{c.l}</p>
-            </div>
-          ))}
+          <p className="mt-6 leading-relaxed text-md">
+          2026년 12월 12일 토요일 오후 4시
+          </p>
+          <p className="mt-1 leading-relaxed text-md">
+          로얄파크컨벤션 1F 파크홀
+          </p>
         </div>
-        <p className="mt-4 text-center text-sm text-foreground/80">
-          <span className="serif ">이황</span>
-          <span className="mx-1 text-primary">♥</span>
-          <span className="serif ">남궁현경 </span>
-          의 결혼식이{" "}
-          <span className="font-bold text-primary">{days}</span>일 남았습니다
-        </p>
-      </div>
+
+        <div className="mt-2">
+          <Calendar />
+        </div>
+
+        <div className="p-5">
+          <div className="grid grid-cols-4 gap-2 text-center">
+            {[
+              { l: "DAYS", v: days },
+              { l: "HOURS", v: hours },
+              { l: "MIN", v: minutes },
+              { l: "SEC", v: seconds },
+            ].map((c) => (
+              <div 
+                key={c.l} 
+                className="rounded-xl bg-white py-2.5 border border-primary/10 shadow-lg shadow-primary/5"
+              >
+                <p className="font-serif text-lg tabular-nums text-foreground">{String(c.v).padStart(2, "0")}</p>
+                <p className="text-[10px] tracking-widest text-foreground/50 mt-0.5">{c.l}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-center text-sm text-foreground/80">
+            <span className="serif">이황</span>
+            <span className="mx-1 text-primary">♥</span>
+            <span className="serif">남궁현경</span>
+            의 결혼식이{" "}
+            <span className="font-bold text-primary">{days}</span>일 남았습니다
+          </p>
+        </div>
+      </section>
     </section>
   );
 }
