@@ -7,14 +7,14 @@ export function Hxunhwang() {
   const [showQA, setShowQA] = useState(false);
 
   return (
-    <section className="bg-[#faf6f1] px-6 py-12 text-center">
+    <section className="bg-[#faf6f1] px-2 py-12 text-center">
       <section className="px-6 text-center">
         <h2 
             className="text-2xl"
             style={{ fontFamily: '"Noto Serif KR", serif' }}>
-          신랑 신부 인터뷰</h2>
+          Interview</h2>
 
-        <div className="mt-6 grid grid-cols-2 gap-10 px-2">
+        <div className="mt-8 grid grid-cols-2 gap-10 px-2">
 
           {/* --- 신랑 카드 --- */}
           <div className="flex flex-col items-center">
@@ -26,10 +26,11 @@ export function Hxunhwang() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <p className="mt-3 font-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
+            <p className="mt-3 font-sans-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
               <span className="font-bold">이황</span>
-              {`
-              ISTJ
+            </p>
+            <p className="font-sans-serif text-sm leading-relaxed text-foreground/85 whitespace-pre-line">
+              {`ISTJ
               자유롭고 싶은 여행가
               조용한 다정함
               고기 좋아 사람`}
@@ -46,10 +47,11 @@ export function Hxunhwang() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <p className="mt-3 font-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
+            <p className="mt-3 font-sans-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
               <span className="font-bold">남궁현경</span>
-              {`
-              ENTJ
+            </p>
+            <p className="font-sans-serif text-sm leading-relaxed text-foreground/85 whitespace-pre-line">
+              {`ENTJ
               흥이 넘치는 야망가
               톡톡 튀는 텐션
               해물 좋아 사람`}
@@ -57,7 +59,7 @@ export function Hxunhwang() {
           </div>       
         </div>
 
-        <div className="mt-10 px-6 text-center">
+        <div className="mt-10 px-4 text-center">
           <button
             onClick={() => setShowQA(!showQA)}
             className="px-7 py-2.5 rounded-full border border-primary/20 bg-card text-sm text-primary font-medium active:scale-95 transition"
@@ -67,7 +69,7 @@ export function Hxunhwang() {
 
           {showQA && (
             <div className="mt-8 text-center">
-              <p className="font-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
+              <p className="font-sans-serif text-sm leading-relaxed text-foreground/80 whitespace-pre-line">
                 <span className="font-bold">Q. 어떻게 만났나요?</span>
                 {`
         저희는 같은 대학교 친구의 소개로 만났습니다!
@@ -75,7 +77,7 @@ export function Hxunhwang() {
         아까운 시간만큼 더 많이 사랑하려고 합니다`}
               </p>
 
-              <p className="mt-6 font-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
+              <p className="mt-6 font-sans-serif text-sm leading-relaxed text-foreground/80 whitespace-pre-line">
                 <span className="font-bold">Q. 서로 잘 맞나요?</span>
                 {`
         서로의 텐션은 조금 다르지만
@@ -83,7 +85,7 @@ export function Hxunhwang() {
         삶에 대한 가치관이 매우 유사합니다🖤`}
               </p>
 
-              <p className="mt-6 font-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
+              <p className="mt-6 font-sans-serif text-sm leading-relaxed text-foreground/80 whitespace-pre-line">
                 <span className="font-bold">Q. 서로의 어떤 점에 끌렸나요?</span>
                 {`
         황 : 당당한 커리어우먼 같은 모습이
@@ -93,7 +95,7 @@ export function Hxunhwang() {
         매력적이었습니다`}
               </p>
 
-              <p className="mt-6 font-serif text-md leading-relaxed text-foreground/85 whitespace-pre-line">
+              <p className="mt-6 font-sans-serif text-sm leading-relaxed text-foreground/80 whitespace-pre-line">
                 <span className="font-bold">Q. 결혼을 결심한 이유는 무언가요?</span>
                 {`
         황 : 삶을 대하는 똑부러지는 태도에

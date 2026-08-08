@@ -2,7 +2,7 @@ import heroAsset from "@/assets/wuli-23.webp";
 
 export function Hero() {
   return (
-    <section className="relative h-[100svh] w-full overflow-hidden">
+    <section className="relative h-[80svh] w-full overflow-hidden">
       <img
         src={heroAsset}
         alt="이황과 남궁현경"

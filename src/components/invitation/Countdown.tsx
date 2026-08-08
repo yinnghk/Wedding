@@ -76,17 +76,26 @@ export function Countdown() {
             style={{ fontFamily: '"Noto Serif KR", serif' }}>
             Wedding Day</h2>
 
-          <p className="mt-6 leading-relaxed text-md">
+          <p className="mt-6 leading-relaxed text-sm">
           2026년 12월 12일 토요일 오후 4시
           </p>
-          <p className="mt-1 leading-relaxed text-md">
+          <p className="mt-1 leading-relaxed text-sm">
           로얄파크컨벤션 1F 파크홀
           </p>
         </div>
 
-        <div className="mt-2">
+        <div className="flex items-center justify-center gap-3 py-10">
+          <span className="h-px w-70 bg-primary/20" />
+        </div>
+
+        <div className>
           <Calendar />
         </div>
+
+        <div className="flex items-center justify-center gap-3 py-10">
+          <span className="h-px w-70 bg-primary/20" />
+        </div>
+
 
         <div className="p-5">
           <div className="grid grid-cols-4 gap-2 text-center">
@@ -105,7 +114,7 @@ export function Countdown() {
               </div>
             ))}
           </div>
-          <p className="mt-4 text-center text-sm text-foreground/80">
+          <p className="mt-10 text-center text-sm text-foreground/80">
             <span className="serif">이황</span>
             <span className="mx-1 text-primary">♥</span>
             <span className="serif">남궁현경</span>

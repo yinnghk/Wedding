@@ -14,7 +14,7 @@ export function Invitation() {
           </section>
         </div>
 
-        <p className="mt-7 font-serif text-md leading-loose text-foreground/85 whitespace-pre-line">
+        <p className="mt-7 font-sans-serif text-sm leading-loose text-foreground/85 whitespace-pre-line">
           {`서로의 앞에서 가장 편안한 모습으로
   평생 아이처럼 사랑할 사람을 만났습니다
   매일 웃게 해주겠다는 약속을 지키고 싶어

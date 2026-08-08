@@ -2,7 +2,7 @@ import RingAsset from "@/assets/wuli-9.webp";
 
 export function Ring() {
   return (
-    <section className="relative h-[80svh] w-full overflow-hidden">
+    <section className="relative h-[65svh] w-full overflow-hidden">
       <img
         src={RingAsset}
         alt="영원한 사랑"
