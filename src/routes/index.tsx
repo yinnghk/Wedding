@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { FadeIn } from "@/components/invitation/Fadein";
 import { createFileRoute } from "@tanstack/react-router";
 import { Toaster } from "sonner";
 import { Hero } from "@/components/invitation/Hero";
@@ -40,6 +41,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [showIntro, setShowIntro] = useState(true);
+  const [startBgm, setStartBgm] = useState(false);
 
   return (
     <>
@@ -48,26 +50,29 @@ function Index() {
         <Intro
           onFinish={() => {
             setShowIntro(false);
+            setStartBgm(true); // 인트로 완료 시 BGM 재생
           }}
         />
       )}
-      
+
       <div className="min-h-screen w-full page-bg">
         <Toaster position="top-center" richColors />
 
-        <Bgm />
+        {/* play 프로퍼티로 재생 신호 전달 */}
+        <Bgm play={startBgm} />
 
         <main className="mx-auto w-full max-w-[390px] overflow-hidden bg-white">
           <Hero />
-          <Invitation />
-          <Ring />
-          <Countdown />
-          <Hxunhwang />
-          <Gallery />
-          <Location />
-          <Accounts />
-          <Guestbook />
-          <Rsvp />
+
+          <FadeIn><Invitation /></FadeIn>
+          <FadeIn><Ring /></FadeIn>
+          <FadeIn><Countdown /></FadeIn>
+          <FadeIn><Hxunhwang /></FadeIn>
+          <FadeIn><Gallery /></FadeIn>
+          <FadeIn><Location /></FadeIn>
+          <FadeIn><Accounts /></FadeIn>
+          <FadeIn><Guestbook /></FadeIn>
+          <FadeIn><Rsvp /></FadeIn>
           <Footer />
         </main>
       </div>

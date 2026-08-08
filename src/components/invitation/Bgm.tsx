@@ -1,28 +1,41 @@
-import { useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-export function Bgm() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
+interface BgmProps {
+  play?: boolean;
+}
 
-  const toggleMusic = async () => {
+export function Bgm({ play }: BgmProps) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (play && audioRef.current) {
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          // 브라우저 자동재생 정책으로 막힌 경우 예외 처리
+          console.log("자동 재생 정책으로 인해 음악이 차단되었습니다:", error);
+          setIsPlaying(false);
+        });
+    }
+  }, [play]);
+
+  const toggleMusic = () => {
     if (!audioRef.current) return;
-
-    if (playing) {
+    if (isPlaying) {
       audioRef.current.pause();
-      setPlaying(false);
+      setIsPlaying(false);
     } else {
-      try {
-        await audioRef.current.play();
-        setPlaying(true);
-      } catch (err) {
-        console.error(err);
-      }
+      audioRef.current.play();
+      setIsPlaying(true);
     }
   };
 
   return (
-    <>
+    <div>
       <audio
         ref={audioRef}
         src="/music/completely.m4a"
@@ -47,14 +60,8 @@ export function Bgm() {
             flex items-center justify-center
             "
         >
-            {playing ? (
-            <Volume2 className="w-5 h-5 text-white" />
-            ) : (
-            <VolumeX className="w-5 h-5 text-white" />
-            )}
-        </button>
-
+         </button>
       </div>
-    </>
+    </div>
   );
 }
