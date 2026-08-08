@@ -55,7 +55,7 @@ function Index() {
 
         <Bgm />
 
-        <main className="mx-auto w-full max-w-[480px] bg-transparent">
+        <main className="mx-auto w-full max-w-[390px] overflow-hidden bg-white">
           <Hero />
           <Invitation />
           <Ring />
