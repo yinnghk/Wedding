@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface BgmProps {
   play?: boolean;
@@ -60,7 +61,13 @@ export function Bgm({ play }: BgmProps) {
             flex items-center justify-center
             "
         >
-         </button>
+            {isPlaying ? (
+            <Volume2 className="w-5 h-5 text-white" />
+            ) : (
+            <VolumeX className="w-5 h-5 text-white" />
+            )}
+        </button>
+
       </div>
     </div>
   );

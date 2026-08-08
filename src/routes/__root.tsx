@@ -82,6 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "이황 ❤ 남궁현경 결혼합니다" },
       { property: "og:description", content: "2026년 12월 12일 16시, 저희의 새로운 시작을 함께해 주세요." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://hxunhwang.vercel.app/og-image.png" },
+      { name: "twitter:image", content: "https://hxunhwang.vercel.app/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
