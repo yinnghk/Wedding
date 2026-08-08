@@ -11,8 +11,8 @@ export function Footer() {
   };
 
   return (
-    <section className="bg-[#ffffff] px-6 py-12 text-center">
-      <footer className="px-6 pb-16 pt-4 text-center">
+    <section className="bg-[#ffffff] text-center">
+      <footer className="px-6 pb-10 text-center">
 
         <div className="relative w-full max-w-[480px] h-full overflow-hidden">
           <img

@@ -84,20 +84,20 @@ export function Countdown() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center gap-3 py-10">
+        <div className="flex items-center justify-center gap-3 py-8">
           <span className="h-px w-70 bg-primary/20" />
         </div>
 
-        <div className>
+        <div>
           <Calendar />
         </div>
 
-        <div className="flex items-center justify-center gap-3 py-10">
+        <div className="flex items-center justify-center gap-3 py-2">
           <span className="h-px w-70 bg-primary/20" />
         </div>
 
 
-        <div className="p-5">
+        <div className="p-3">
           <div className="grid grid-cols-4 gap-2 text-center">
             {[
               { l: "DAYS", v: days },
@@ -118,8 +118,8 @@ export function Countdown() {
             <span className="serif">이황</span>
             <span className="mx-1 text-primary">♥</span>
             <span className="serif">남궁현경</span>
-            의 결혼식이{" "}
-            <span className="font-bold text-primary">{days}</span>일 남았습니다
+            의 결혼식까지{" "}
+            <span className="font-bold text-primary">{days}</span>일
           </p>
         </div>
       </section>

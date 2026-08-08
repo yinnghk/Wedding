@@ -61,7 +61,7 @@ export function Rsvp() {
         </p>
         <button
           onClick={() => setOpen(true)}
-          className="mt-6 px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium shadow-md active:scale-95 transition"
+            className="mt-4 flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-[#c7a37e] py-2 text-primary-foreground font-medium transition active:scale-95"
         >
           참석 의사 전달하기
         </button>
