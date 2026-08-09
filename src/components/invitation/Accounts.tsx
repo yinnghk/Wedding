@@ -84,16 +84,16 @@ function AccountList({ items }: { items: Account[] }) {
 function Section({ title, items }: { title: string; items: Account[] }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl bg-white/70 border border-stone-200/70 p-4 shadow-sm backdrop-blur-sm transition-all font-sans">
+    <div className="rounded-2xl bg-white/70 border border-stone-200/70 py-3.5 px-4 shadow-sm backdrop-blur-sm transition-all font-sans">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between py-1"
+        className="flex w-full items-center justify-between py-0.5"
       >
-        <span className="text-stone-800 font-medium text-base">
+        <span className="text-stone-800 font-medium text-sm">
           {title} 계좌번호
         </span>
         <ChevronDown
-          size={18}
+          size={16}
           className={`text-stone-500 transition-transform duration-300 ${
             open ? "rotate-180" : ""
           }`}
