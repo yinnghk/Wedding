@@ -12,11 +12,11 @@ import { Accounts } from "@/components/invitation/Accounts";
 import { Rsvp } from "@/components/invitation/Rsvp";
 import { Guestbook } from "@/components/invitation/Guestbook";
 import { Footer } from "@/components/invitation/Footer";
-import { StarDivider } from "@/components/invitation/Divider";
 import { Hxunhwang } from "@/components/invitation/Hxunhwang";
 import { Bgm } from "@/components/invitation/Bgm";
 import { Intro } from "@/components/invitation/Intro";
 import { Ring } from "@/components/invitation/Ring";
+import { Outro } from "@/components/invitation/Outro";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -72,8 +72,9 @@ function Index() {
           <FadeIn><Location /></FadeIn>
           <FadeIn><Accounts /></FadeIn>
           <FadeIn><Guestbook /></FadeIn>
-          <FadeIn><Rsvp /></FadeIn>
-          <Footer />
+          {/* <FadeIn><Rsvp /></FadeIn>
+          <Footer /> */}
+          <FadeIn><Outro /></FadeIn>
         </main>
       </div>
     </>

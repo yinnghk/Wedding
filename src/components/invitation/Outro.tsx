@@ -2,8 +2,16 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import intro from "@/assets/intro3.gif";
 
-export function Rsvp() {
+export function Outro() {
+  const copy = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success("링크가 복사되었습니다.");
+    }
+  };
+
   const [open, setOpen] = useState(false);
   const [side, setSide] = useState<"신랑측" | "신부측">("신랑측");
   const [name, setName] = useState("");
@@ -53,18 +61,35 @@ export function Rsvp() {
           </h2>
         </div>
 
-        {/* 버튼 클릭 시에만 모달 열림 */}
-        <button
-          onClick={() => setOpen(true)}
-          className="mt-6 inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-[#8c7b7b] py-3.5 text-sm font-medium text-white shadow-sm transition active:scale-[0.98] hover:bg-[#7a6a6a]"
-        >
-          참석 의사 전달하기
-        </button>
+        <p className="mt-4 leading-relaxed text-sm text-primary/60">
+          원활한 예식 진행 및 식사 준비를 위해
+        </p>
+        <p className="leading-relaxed text-sm text-primary/60">
+          참석 여부를 미리 전달해주시면 감사하겠습니다
+        </p>
+
+        <div className="mt-6 relative w-full rounded-2xl overflow-hidden shadow-sm border border-stone-200/60">
+          <img
+            src={intro}
+            alt="Wedding Intro"
+            className="w-full h-full object-cover animate-intro"
+          />
+        </div>
+
+        {/* 참석 의사 전달하기 버튼 */}
+        <div className="mt-6">
+          <button
+            onClick={() => setOpen(true)}
+            className="w-full rounded-2xl bg-stone-800 py-3.5 text-sm font-medium text-white shadow-sm hover:bg-stone-700 active:scale-[0.98] transition-all"
+          >
+            참석 의사 전달하기
+          </button>
+        </div>
 
         {/* 바텀 시트 팝업 모달 */}
         {open && (
           <div
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-xs p-0 sm:p-4 transition-opacity"
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-xs p-0 sm:p-4 transition-opacity font-sans"
             onClick={() => setOpen(false)}
           >
             <div
@@ -74,7 +99,7 @@ export function Rsvp() {
               {/* 모달 헤더 */}
               <div className="flex items-center justify-between pb-4 border-b border-stone-100">
                 <div>
-                  <h3 className="font-serif text-lg text-stone-800">참석 의사 전달</h3>
+                  <h3 className="text-base font-bold text-stone-800">참석 의사 전달</h3>
                   <p className="text-xs text-stone-400 mt-0.5">정성스런 마음으로 모시겠습니다</p>
                 </div>
                 <button
@@ -98,7 +123,7 @@ export function Rsvp() {
                         onClick={() => setSide(s)}
                         className={`py-2 rounded-lg text-xs font-medium transition ${
                           side === s
-                            ? "bg-white text-stone-800 shadow-xs"
+                            ? "bg-white text-stone-800 shadow-xs font-semibold"
                             : "text-stone-400 hover:text-stone-600"
                         }`}
                       >
@@ -125,7 +150,7 @@ export function Rsvp() {
                         key={s}
                         type="button"
                         onClick={() => setAttendance(s)}
-                        className={`py-2 rounded-xl border text-xs font-medium transition ${
+                        className={`py-2.5 rounded-xl border text-xs font-medium transition ${
                           attendance === s
                             ? "border-stone-800 bg-stone-800 text-white"
                             : "border-stone-200 bg-white text-stone-500 hover:bg-stone-50"
@@ -195,7 +220,7 @@ export function Rsvp() {
                   <button
                     onClick={submit}
                     disabled={submitting}
-                    className="w-full rounded-xl bg-[#5c5454] py-3 text-sm font-medium text-white shadow-sm transition active:scale-[0.98] hover:bg-[#4a4343] disabled:opacity-50"
+                    className="w-full rounded-xl bg-stone-800 py-3.5 text-sm font-medium text-white shadow-sm hover:bg-stone-700 active:scale-[0.98] transition-all disabled:opacity-50"
                   >
                     {submitting ? "전송 중…" : "참석 의사 전달하기"}
                   </button>
@@ -204,6 +229,24 @@ export function Rsvp() {
             </div>
           </div>
         )}
+
+        {/* 청첩장 전달하기 버튼 */}
+        <div className="mt-3">
+          <button
+            onClick={copy}
+            className="w-full rounded-2xl bg-stone-200/80 hover:bg-stone-200 py-3.5 text-sm font-medium text-stone-700 active:scale-[0.98] transition-all"
+          >
+            청첩장 링크 복사하기
+          </button>
+        </div>
+
+        <p className="mt-8 text-sm leading-relaxed text-primary/60">
+          소중한 날 귀한 걸음으로 축하해주셔서 감사합니다
+        </p>
+
+        <p className="mt-6 text-xs text-stone-400/60 tracking-wider">
+          made by hxunhwang
+        </p>
       </section>
     </section>
   );

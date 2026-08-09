@@ -11,8 +11,8 @@ type Account = {
 };
 
 const groomAccounts: Account[] = [
-  { relation: "신랑 아버지", name: "이인식", bank: "KB국민은행", number: "347802-04-295482", phone: "01023456789" },
-  { relation: "신랑 어머니", name: "강미선", bank: "KB국민은행", number: "347802-04-295482", phone: "01034567890" },
+  { relation: "신랑 아버지", name: "이인식", bank: "신한은행", number: "452502-01-030816", phone: "01038942750" },
+  { relation: "신랑 어머니", name: "강미선", bank: "국민은행", number: "349-020-17366", phone: "01020932750" },
   { relation: "신랑", name: "이황", bank: "카카오뱅크", number: "7942-20-68538", phone: "01091822750" },
 ];
 
@@ -28,7 +28,7 @@ function formatPhone(p: string) {
 
 function AccountList({ items }: { items: Account[] }) {
   return (
-    <ul className="mt-4 space-y-3 pt-2 border-t border-stone-200/60">
+    <ul className="mt-4 space-y-3 pt-2 border-t border-stone-200/60 font-sans">
       {items.map((a) => (
         <li
           key={a.relation}
@@ -40,7 +40,7 @@ function AccountList({ items }: { items: Account[] }) {
               <span className="text-[11px] font-medium text-stone-400 block mb-0.5">
                 {a.relation}
               </span>
-              <span className="font-serif text-stone-800 text-base font-bold">
+              <span className="text-stone-800 text-base font-bold">
                 {a.name}
               </span>
             </div>
@@ -84,12 +84,12 @@ function AccountList({ items }: { items: Account[] }) {
 function Section({ title, items }: { title: string; items: Account[] }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl bg-white/70 border border-stone-200/70 p-4 shadow-sm backdrop-blur-sm transition-all">
+    <div className="rounded-2xl bg-white/70 border border-stone-200/70 p-4 shadow-sm backdrop-blur-sm transition-all font-sans">
       <button
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between py-1"
       >
-        <span className="font-serif text-stone-800 font-medium text-base">
+        <span className="text-stone-800 font-medium text-base">
           {title} 계좌번호
         </span>
         <ChevronDown

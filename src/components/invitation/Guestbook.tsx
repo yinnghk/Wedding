@@ -14,7 +14,7 @@ export function Guestbook() {
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false); // 폼 열림/닫힘 상태
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     supabase
@@ -57,7 +57,7 @@ export function Guestbook() {
     }
     setAuthor("");
     setContent("");
-    setIsFormOpen(false); // 메시지 전송 후 폼 닫기
+    setIsFormOpen(false);
     toast.success("메시지가 전달되었습니다");
   };
 
@@ -74,7 +74,7 @@ export function Guestbook() {
 
   return (
     <section className="bg-[#f7f1e8] px-3 py-20 text-center">
-      <section className="px-6">
+      <section className="px-6 max-w-[340px] mx-auto">
         <div className="text-center">
           <h2
             className="text-2xl text-stone-800"
@@ -88,24 +88,21 @@ export function Guestbook() {
           </p>
         </div>
 
-        {/* 메시지 리스트 (최대 3개만 노출) */}
+        {/* 메시지 리스트 (최대 3개 노출) */}
         {messages.length > 0 && (
-          <div className="mt-8 space-y-4 text-left">
+          <div className="mt-8 space-y-3.5 text-left">
             {messages.slice(0, 3).map((m) => (
               <div
                 key={m.id}
-                className="relative rounded-2xl bg-white p-5 shadow-sm border border-black/5"
+                className="relative rounded-2xl bg-white/90 p-5 shadow-sm border border-stone-200/60"
               >
-                <span className="absolute top-4 right-4 text-xs text-stone-300">
-                  ✕
-                </span>
-                <p className="text-[14.5px] leading-relaxed text-stone-800 whitespace-pre-wrap break-words pr-4">
+                <p className="text-[14.5px] leading-relaxed text-stone-800 whitespace-pre-wrap break-words">
                   {m.content}
                 </p>
-                <div className="mt-4 flex items-center justify-between text-xs text-stone-400 font-light">
+                <div className="mt-4 flex items-center justify-between text-xs text-stone-400 font-light pt-3 border-t border-dashed border-stone-200/80">
                   <span>
                     <span className="text-stone-400 mr-1">From</span>
-                    <span className="text-stone-600 font-normal">{m.author}</span>
+                    <span className="text-stone-700 font-medium">{m.author}</span>
                   </span>
                   <span className="text-stone-400">{formatDate(m.created_at)}</span>
                 </div>
@@ -114,36 +111,40 @@ export function Guestbook() {
           </div>
         )}
 
-        {/* 메시지 작성하기 버튼 */}
+        {/* 메시지 작성 토글 버튼 */}
         <div className="mt-6">
           <button
             onClick={() => setIsFormOpen((prev) => !prev)}
-            className="w-full rounded-xl bg-[#c7a37e] py-3 text-sm font-medium text-white transition active:scale-[0.98] shadow-sm"
+            className="w-full rounded-2xl bg-stone-800 py-3.5 text-sm font-medium text-white shadow-sm hover:bg-stone-700 active:scale-[0.98] transition-all"
           >
-            {isFormOpen ? "작성 취소" : "메시지 작성하기"}
+            {isFormOpen ? "닫기" : "메시지 작성하기"}
           </button>
         </div>
 
-        {/* 입력 폼 (버튼 클릭 시 표시) */}
+        {/* 입력 폼 영역 */}
         {isFormOpen && (
-          <div className="mt-4 bg-white/70 backdrop-blur-sm p-4 rounded-2xl shadow-sm space-y-3">
-            <input
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              placeholder="이름"
-              className="w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-2.5 text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-300"
-            />
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="축하 메시지를 남겨주세요💌"
-              rows={3}
-              className="w-full rounded-xl border border-stone-200 bg-white/80 px-4 py-3 text-sm text-stone-700 placeholder:text-stone-400 resize-none focus:outline-none focus:ring-2 focus:ring-stone-300"
-            />
+          <div className="mt-3.5 rounded-2xl bg-white/80 p-4 border border-stone-200/70 shadow-sm backdrop-blur-sm space-y-3 transition-all text-left">
+            <div>
+              <input
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                placeholder="성함을 입력해주세요"
+                className="w-full rounded-xl border border-stone-200/80 bg-white px-3.5 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400/50 transition"
+              />
+            </div>
+            <div>
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="축하의 마음을 전달해주세요 💌"
+                rows={3}
+                className="w-full rounded-xl border border-stone-200/80 bg-white px-3.5 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 resize-none focus:outline-none focus:ring-2 focus:ring-stone-400/50 transition"
+              />
+            </div>
             <button
               onClick={submit}
               disabled={submitting}
-              className="w-full rounded-xl bg-[#5c5454] py-2.5 text-sm font-medium text-white transition active:scale-[0.98] disabled:opacity-50"
+              className="w-full rounded-xl bg-stone-700 py-3 text-sm font-medium text-white hover:bg-stone-800 active:scale-[0.98] transition-all disabled:opacity-50 shadow-sm mt-1"
             >
               {submitting ? "전송 중…" : "보내기"}
             </button>
