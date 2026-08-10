@@ -1,24 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Vite 클라이언트 및 Node SSR 환경 둘 다 대응
-const supabaseUrl =
-  import.meta.env?.VITE_SUPABASE_URL ||
-  (typeof process !== "undefined" ? process.env?.VITE_SUPABASE_URL : "") ||
-  "";
+// 실제 URL과 Publishable Key 직접 입력
+const supabaseUrl = "https://cqoxtcgietaibrsujvwh.supabase.co";
+const supabaseAnonKey = "sb_publishable_YJaWKJ_0iHXpbLI2crD_0g_rjXmrtoV"; // (eyJ로 시작하는 실제 키)
 
-const supabaseAnonKey =
-  import.meta.env?.VITE_SUPABASE_ANON_KEY ||
-  (typeof process !== "undefined" ? process.env?.VITE_SUPABASE_ANON_KEY : "") ||
-  "";
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error("Supabase 환경변수가 설정되지 않았습니다. .env 파일 위치와 변수명을 확인해주세요.");
-}
-
-export const supabase = createClient(
-  supabaseUrl || "https://cqoxtcgietaibrsujvwh.supabase.co",
-  supabaseAnonKey || "placeholder-key"
-);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export interface GuestbookMessage {
   id?: string;
