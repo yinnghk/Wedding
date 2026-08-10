@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 
 type Message = {
   id: string;
   author: string;
   content: string;
+  color_index?: number;
   created_at: string;
 };
+
+// 카드 배경색 옵션 (은은한 모바일 청첩장 톤)
+const CARD_BG_STYLES = [
+  "bg-white/90 border-stone-200/60",
+  "bg-[#fcf8f2]/90 border-[#e8dfd1]/80",
+  "bg-[#f4f0ea]/90 border-[#e2dad0]/80",
+];
 
 export function Guestbook() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -15,6 +23,7 @@ export function Guestbook() {
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isAllModalOpen, setIsAllModalOpen] = useState(false); // 전체 메시지 모달 상태
 
   useEffect(() => {
     supabase
@@ -46,10 +55,16 @@ export function Guestbook() {
       return;
     }
     setSubmitting(true);
+    
+    // 무작위 색상 인덱스 부여 (0~2)
+    const colorIndex = Math.floor(Math.random() * CARD_BG_STYLES.length);
+
     const { error } = await supabase.from("guestbook_messages").insert({
       author: author.trim(),
       content: content.trim(),
+      color_index: colorIndex,
     });
+    
     setSubmitting(false);
     if (error) {
       toast.error("전송 실패");
@@ -91,23 +106,43 @@ export function Guestbook() {
         {/* 메시지 리스트 (최대 3개 노출) */}
         {messages.length > 0 && (
           <div className="mt-8 space-y-3.5 text-left">
-            {messages.slice(0, 3).map((m) => (
-              <div
-                key={m.id}
-                className="relative rounded-2xl bg-white/90 p-5 shadow-sm border border-stone-200/60"
-              >
-                <p className="text-[14.5px] leading-relaxed text-stone-800 whitespace-pre-wrap break-words">
-                  {m.content}
-                </p>
-                <div className="mt-4 flex items-center justify-between text-xs text-stone-400 font-light pt-3 border-t border-dashed border-stone-200/80">
-                  <span>
-                    <span className="text-stone-400 mr-1">From</span>
-                    <span className="text-stone-700 font-medium">{m.author}</span>
-                  </span>
-                  <span className="text-stone-400">{formatDate(m.created_at)}</span>
+            {messages.slice(0, 3).map((m) => {
+              const bgStyle =
+                CARD_BG_STYLES[m.color_index ?? 0] || CARD_BG_STYLES[0];
+              return (
+                <div
+                  key={m.id}
+                  className={`relative rounded-2xl p-5 shadow-sm border ${bgStyle}`}
+                >
+                  <p className="text-[14.5px] leading-relaxed text-stone-800 whitespace-pre-wrap break-words">
+                    {m.content}
+                  </p>
+                  <div className="mt-4 flex items-center justify-between text-xs text-stone-400 font-light pt-3 border-t border-dashed border-stone-300/80">
+                    <span>
+                      <span className="text-stone-400 mr-1">From</span>
+                      <span className="text-stone-700 font-medium">
+                        {m.author}
+                      </span>
+                    </span>
+                    <span className="text-stone-400">
+                      {formatDate(m.created_at)}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+        )}
+
+        {/* 메시지가 3개 초과일 때 전체보기 버튼 노출 */}
+        {messages.length > 3 && (
+          <div className="mt-3 text-right">
+            <button
+              onClick={() => setIsAllModalOpen(true)}
+              className="text-xs text-stone-500 underline underline-offset-4 hover:text-stone-800"
+            >
+              전체 메시지 보기 ({messages.length}개)
+            </button>
           </div>
         )}
 
@@ -151,6 +186,58 @@ export function Guestbook() {
           </div>
         )}
       </section>
+
+      {/* 전체 메시지 보기 모달 팝업 */}
+      {isAllModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-[360px] max-h-[80vh] flex flex-col rounded-3xl bg-[#f7f1e8] p-6 shadow-2xl text-left">
+            <div className="flex justify-between items-center pb-4 border-b border-stone-300">
+              <h3 className="font-serif text-lg text-stone-800">
+                전체 메시지 ({messages.length})
+              </h3>
+              <button
+                onClick={() => setIsAllModalOpen(false)}
+                className="text-stone-500 hover:text-stone-800 text-sm font-bold p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto space-y-3 my-4 pr-1">
+              {messages.map((m) => {
+                const bgStyle =
+                  CARD_BG_STYLES[m.color_index ?? 0] || CARD_BG_STYLES[0];
+                return (
+                  <div
+                    key={m.id}
+                    className={`rounded-2xl p-4 shadow-sm border ${bgStyle}`}
+                  >
+                    <p className="text-sm leading-relaxed text-stone-800 whitespace-pre-wrap break-words">
+                      {m.content}
+                    </p>
+                    <div className="mt-3 flex items-center justify-between text-xs text-stone-400 font-light pt-2 border-t border-dashed border-stone-300">
+                      <span>
+                        <span className="mr-1">From</span>
+                        <span className="text-stone-700 font-medium">
+                          {m.author}
+                        </span>
+                      </span>
+                      <span>{formatDate(m.created_at)}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setIsAllModalOpen(false)}
+              className="w-full py-3 bg-stone-800 text-white rounded-xl text-sm font-medium"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

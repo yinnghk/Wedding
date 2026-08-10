@@ -1,32 +1,51 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 
 export function Rsvp() {
   const [open, setOpen] = useState(false);
   const [side, setSide] = useState<"신랑측" | "신부측">("신랑측");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [attendance, setAttendance] = useState<"참석" | "불참석">("참석");
-  const [guestCount, setGuestCount] = useState("");
+  const [guestCount, setGuestCount] = useState("1"); // 기본값 1명
   const [companion, setCompanion] = useState("");
   const [meal, setMeal] = useState<"예정" | "안함" | "미정">("예정");
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const resetForm = () => {
+    setName("");
+    setPhone("");
+    setGuestCount("1");
+    setCompanion("");
+    setMeal("예정");
+    setMessage("");
+  };
 
   const submit = async () => {
     if (!name.trim()) {
       toast.error("성함을 입력해주세요");
       return;
     }
+
     setSubmitting(true);
+
+    const parsedGuestCount =
+      attendance === "참석" ? parseInt(guestCount, 10) || 1 : 0;
+
     const { error } = await supabase.from("rsvp_submissions").insert({
       side,
       name: name.trim(),
+      phone: phone.trim() || null,
       attendance,
-      guest_count: attendance === "참석" && guestCount ? parseInt(guestCount) : 0,
+      guest_count: parsedGuestCount,
       companion: attendance === "참석" ? companion.trim() || null : null,
       meal_preference: attendance === "참석" ? meal : "안함",
+      message: message.trim() || null,
     });
+
     setSubmitting(false);
 
     if (error) {
@@ -36,9 +55,7 @@ export function Rsvp() {
 
     toast.success("참석 의사가 전달되었습니다");
     setOpen(false);
-    setName("");
-    setGuestCount("");
-    setCompanion("");
+    resetForm();
   };
 
   return (
@@ -51,9 +68,12 @@ export function Rsvp() {
           >
             RSVP
           </h2>
+          <p className="mt-2 text-xs text-stone-400">
+            참석 여부를 알려주시면 준비에 큰 도움이 됩니다
+          </p>
         </div>
 
-        {/* 버튼 클릭 시에만 모달 열림 */}
+        {/* 버튼 클릭 시 모달 열림 */}
         <button
           onClick={() => setOpen(true)}
           className="mt-6 inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-[#8c7b7b] py-3.5 text-sm font-medium text-white shadow-sm transition active:scale-[0.98] hover:bg-[#7a6a6a]"
@@ -74,8 +94,12 @@ export function Rsvp() {
               {/* 모달 헤더 */}
               <div className="flex items-center justify-between pb-4 border-b border-stone-100">
                 <div>
-                  <h3 className="font-serif text-lg text-stone-800">참석 의사 전달</h3>
-                  <p className="text-xs text-stone-400 mt-0.5">정성스런 마음으로 모시겠습니다</p>
+                  <h3 className="font-serif text-lg text-stone-800">
+                    참석 의사 전달
+                  </h3>
+                  <p className="text-xs text-stone-400 mt-0.5">
+                    정성스런 마음으로 모시겠습니다
+                  </p>
                 </div>
                 <button
                   onClick={() => setOpen(false)}
@@ -89,7 +113,9 @@ export function Rsvp() {
               <div className="mt-5 space-y-5 text-sm text-stone-700">
                 {/* 1. 구분 (신랑측 / 신부측) */}
                 <div>
-                  <label className="block text-xs font-medium text-stone-500 mb-2">구분</label>
+                  <label className="block text-xs font-medium text-stone-500 mb-2">
+                    구분
+                  </label>
                   <div className="grid grid-cols-2 gap-2 p-1 bg-stone-100/70 rounded-xl">
                     {(["신랑측", "신부측"] as const).map((s) => (
                       <button
@@ -108,55 +134,78 @@ export function Rsvp() {
                   </div>
                 </div>
 
-                {/* 2. 성함 & 참석여부 */}
-                <div>
-                  <label className="block text-xs font-medium text-stone-500 mb-2">
-                    성함 <span className="text-rose-400">*</span>
-                  </label>
-                  <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-4 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 focus:bg-white focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 transition"
-                    placeholder="성함을 입력해주세요"
-                  />
-                  <div className="mt-2 grid grid-cols-2 gap-2">
-                    {(["참석", "불참석"] as const).map((s) => (
-                      <button
-                        key={s}
-                        type="button"
-                        onClick={() => setAttendance(s)}
-                        className={`py-2 rounded-xl border text-xs font-medium transition ${
-                          attendance === s
-                            ? "border-stone-800 bg-stone-800 text-white"
-                            : "border-stone-200 bg-white text-stone-500 hover:bg-stone-50"
-                        }`}
-                      >
-                        {s}
-                      </button>
-                    ))}
+                {/* 2. 성함 & 연락처 & 참석여부 */}
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-stone-500 mb-1.5">
+                      성함 <span className="text-rose-400">*</span>
+                    </label>
+                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-4 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 focus:bg-white focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 transition"
+                      placeholder="성함을 입력해주세요"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-stone-500 mb-1.5">
+                      연락처
+                    </label>
+                    <input
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-4 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 focus:bg-white focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 transition"
+                      placeholder="연락처를 입력해주세요 (선택)"
+                      type="tel"
+                    />
+                  </div>
+
+                  <div className="pt-1">
+                    <label className="block text-xs font-medium text-stone-500 mb-1.5">
+                      참석 여부
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {(["참석", "불참석"] as const).map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setAttendance(s)}
+                          className={`py-2.5 rounded-xl border text-xs font-medium transition ${
+                            attendance === s
+                              ? "border-stone-800 bg-stone-800 text-white"
+                              : "border-stone-200 bg-white text-stone-500 hover:bg-stone-50"
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 {/* 참석 선택 시에만 세부 항목 표시 */}
                 {attendance === "참석" && (
-                  <div className="space-y-4 pt-1 border-t border-dashed border-stone-200 animate-in fade-in duration-200">
+                  <div className="space-y-4 pt-2 border-t border-dashed border-stone-200 animate-in fade-in duration-200">
                     {/* 3. 참석 인원 */}
                     <div>
-                      <label className="block text-xs font-medium text-stone-500 mb-2">
+                      <label className="block text-xs font-medium text-stone-500 mb-1.5">
                         참석 인원 (본인 포함)
                       </label>
                       <input
                         value={guestCount}
-                        onChange={(e) => setGuestCount(e.target.value.replace(/\D/g, ""))}
+                        onChange={(e) =>
+                          setGuestCount(e.target.value.replace(/\D/g, ""))
+                        }
                         className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-4 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 focus:bg-white focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 transition"
-                        placeholder="숫자만 입력 (예: 2)"
+                        placeholder="숫자만 입력 (예: 1)"
                         inputMode="numeric"
                       />
                     </div>
 
                     {/* 4. 동행인 */}
                     <div>
-                      <label className="block text-xs font-medium text-stone-500 mb-2">
+                      <label className="block text-xs font-medium text-stone-500 mb-1.5">
                         동행인 성함
                       </label>
                       <input
@@ -169,7 +218,9 @@ export function Rsvp() {
 
                     {/* 5. 식사 여부 */}
                     <div>
-                      <label className="block text-xs font-medium text-stone-500 mb-2">식사 여부</label>
+                      <label className="block text-xs font-medium text-stone-500 mb-1.5">
+                        식사 여부
+                      </label>
                       <div className="grid grid-cols-3 gap-2">
                         {(["예정", "안함", "미정"] as const).map((s) => (
                           <button
@@ -189,6 +240,20 @@ export function Rsvp() {
                     </div>
                   </div>
                 )}
+
+                {/* 6. 추가 전달 사항 */}
+                <div>
+                  <label className="block text-xs font-medium text-stone-500 mb-1.5">
+                    전달 메시지
+                  </label>
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={2}
+                    className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-4 py-2.5 text-sm text-stone-800 placeholder:text-stone-400 resize-none focus:bg-white focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200 transition"
+                    placeholder="신랑, 신부에게 전달할 메모나 메시지가 있다면 남겨주세요 (선택)"
+                  />
+                </div>
 
                 {/* 제출 버튼 */}
                 <div className="pt-2">
