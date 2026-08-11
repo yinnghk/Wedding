@@ -6,8 +6,8 @@ const NAVER = `https://map.naver.com/v5/search/${encodeURIComponent(ADDRESS)}`;
 
 export function Location() {
   return (
-    <section className="bg-[#ffffff] px-3 py-20 text-center">
-      <section className="px-6">
+    <section className="bg-[#ffffff] py-20 text-center">
+      <div className="invitation-container">
         <div className="text-center">
           <h2
             className="text-2xl text-stone-800"
@@ -120,7 +120,7 @@ export function Location() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </section>
   );
 }

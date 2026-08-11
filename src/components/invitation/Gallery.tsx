@@ -61,8 +61,8 @@ export function Gallery() {
   }, [modalIndex, modalPrev, modalNext]);
 
   return (
-    <section className="bg-[#f7f1e8] px-6 py-20 text-center">
-      <section className="px-6">
+    <section className="bg-[#f7f1e8] py-20 text-center">
+      <div className="invitation-container">
         <div className="text-center">
           <h2
             className="text-2xl"
@@ -71,7 +71,7 @@ export function Gallery() {
             Gallery
           </h2>
         </div>
-      </section>
+      </div>
 
       {/* 메인 캐러셀 슬라이더 */}
       <div className="mt-7 relative w-full">

@@ -50,8 +50,8 @@ export function Outro() {
   };
 
   return (
-    <section className="bg-[#ffffff] px-3 py-20 text-center">
-      <section className="px-6 max-w-[340px] mx-auto">
+    <section className="bg-[#ffffff] py-20 text-center">
+      <div className="invitation-container">
         <div className="text-center">
           <h2
             className="text-2xl text-stone-800"
@@ -247,7 +247,7 @@ export function Outro() {
         <p className="mt-6 text-xs text-stone-400/60 tracking-wider">
           made by hxunhwang
         </p>
-      </section>
+      </div>
     </section>
   );
 }

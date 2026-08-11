@@ -106,8 +106,8 @@ function Section({ title, items }: { title: string; items: Account[] }) {
 
 export function Accounts() {
   return (
-    <section className="bg-[#faf6f1] px-3 py-20 text-center">
-      <section className="px-6">
+    <section className="bg-[#faf6f1] py-20 text-center">
+      <div className="invitation-container">
         <div className="text-center">
           <h2
             className="text-2xl text-stone-800"
@@ -125,11 +125,11 @@ export function Accounts() {
         </div>
 
         {/* 아코디언 카드 영역 */}
-        <div className="mt-8 space-y-3.5 max-w-[340px] mx-auto">
+        <div className="mt-8 space-y-3.5">
           <Section title="신랑측" items={groomAccounts} />
           <Section title="신부측" items={brideAccounts} />
         </div>
-      </section>
+      </div>
     </section>
   );
 }

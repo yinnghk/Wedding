@@ -82,8 +82,8 @@ function Calendar() {
 export function Countdown() {
   const { days, hours, minutes, seconds } = useCountdown();
   return (
-    <section className="bg-[#ffffff] px-6 py-20 text-center">
-      <section className="px-6">
+    <section className="bg-[#ffffff] py-20 text-center">
+      <div className="invitation-container">
         <div className="text-center">
           <h2
             className="text-2xl"
@@ -144,7 +144,7 @@ export function Countdown() {
             <span className="font-bold text-primary/60">{days}</span>일 !
           </p>
         </div>
-      </section>
+      </div>
     </section>
   );
 }

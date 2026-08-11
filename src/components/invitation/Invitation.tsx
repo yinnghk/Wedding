@@ -2,8 +2,8 @@ import line from "@/assets/하트라인4.png";
 
 export function Invitation() {
   return (
-    <section className="bg-[#ffffff] px-4 py-25 text-center">
-      <section className="px-6 text-center">
+    <section className="bg-[#ffffff] py-25 text-center">
+      <div className="invitation-container text-center">
         <div className="flex items-center justify-center gap-3">
           <section className="relative h-[18svh] w-full overflow-hidden">
             <img
@@ -38,7 +38,7 @@ export function Invitation() {
             <span className="text-md font-bold"> 남궁현경</span>
           </p>
         </div>
-      </section>
+      </div>
     </section>
 
   );

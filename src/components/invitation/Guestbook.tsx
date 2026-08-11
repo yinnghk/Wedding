@@ -88,8 +88,8 @@ export function Guestbook() {
   };
 
   return (
-    <section className="bg-[#f7f1e8] px-3 py-20 text-center">
-      <section className="px-6 max-w-[340px] mx-auto">
+    <section className="bg-[#f7f1e8] py-20 text-center">
+      <div className="invitation-container">
         <div className="text-center">
           <h2
             className="text-2xl text-stone-800"
@@ -185,7 +185,7 @@ export function Guestbook() {
             </button>
           </div>
         )}
-      </section>
+      </div>
 
       {/* 전체 메시지 보기 모달 팝업 */}
       {isAllModalOpen && (
