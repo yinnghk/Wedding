@@ -11,8 +11,8 @@ type Account = {
 };
 
 const groomAccounts: Account[] = [
-  { relation: "신랑 아버지", name: "이인식", bank: "신한은행", number: "452502-01-030816", phone: "01038942750" },
-  { relation: "신랑 어머니", name: "강미선", bank: "국민은행", number: "349-020-17366", phone: "01020932750" },
+  { relation: "신랑 아버지", name: "이인식", bank: "국민은행", number: "452502-01-030816", phone: "01038942750" },
+  { relation: "신랑 어머니", name: "강미선", bank: "신한은행", number: "349-020-17366", phone: "01020932750" },
   { relation: "신랑", name: "이황", bank: "카카오뱅크", number: "7942-20-68538", phone: "01091822750" },
 ];
 

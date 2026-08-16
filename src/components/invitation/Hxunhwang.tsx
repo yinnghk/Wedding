@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-import 한복 from "@/assets/한복.jpg";
+import 한복 from "@/assets/한복2.jpg";
 
 export function Hxunhwang() {
   const [showQA, setShowQA] = useState(false);
@@ -25,7 +25,7 @@ export function Hxunhwang() {
     },
     {
       q: "결혼 후 이것만큼은 지켜주겠다 하는 것은?",
-      a: "황 : 한 달에 한 번 회와 내장을 꼭 사주겠습니다.\n 현경 : 매일 심심하지 않은 삶을 살게 해주겠습니다.",
+      a: "황 : 한 달에 한 번 회와 곱창을 꼭 사주겠습니다.\n 현경 : 매일 심심하지 않은 삶을 살게 해주겠습니다.",
     },
   ];
 
@@ -69,7 +69,7 @@ export function Hxunhwang() {
               </span>
               <div className="mt-3 text-xs leading-relaxed text-stone-600 space-y-1">
                 <p>자유롭고 싶은 여행가</p>
-                <p>조용한 다정함</p>
+                <p>안정적인 편안함</p>
                 <p>고기 좋아 사람</p>
               </div>
             </div>
